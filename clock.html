@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-bCt3f6rrlhiJWlT7jvENlEvQg6zvAPyZvj7N2rDzHq6UZs9anp1+6u8IRITbm8xNwKkLo8HvvVkRfDnj9R+JVw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Add your CSS styles here */
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .timeOption {
+            margin-bottom: 20px;
+        }
+
+        .mainDiv {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        #clock {
+            font-size: 36px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="classHolder">
+            <div class="timeHolder">
+                <div class="timeOption">
+                    <i class="fas fa-clock" data-title="Time"></i>
+                    <i class="fas fa-stopwatch" data-title="stopWatch"></i>
+                    <i class="fas fa-clock" data-title="countDown"></i>
+                </div>
+                <div class="mainDiv">
+                    <p id="clock"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+        const currentTime = () => {
+          let curTime = new Date().toLocaleTimeString();
+        //   console.log(curTime)
+          document.getElementById('clock').innerHTML = curTime;
+        }
+        setInterval(()=>{
+            currentTime()
+        }, 1000)
+
+        // function updateTime() {
+        //     var now = new Date();
+        //     var hours = now.getHours();
+        //     var minutes = now.getMinutes();
+        //     var seconds = now.getSeconds();
+        //     document.getElementById('clock').textContent = hours + ":" + minutes + ":" + seconds;
+        // }
+        // setInterval(updateTime, 1000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: saddlebrown;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 8px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: saddlebrown;
+            border: 1px solid #4CAF50;
+        }
+
+        #todo-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .main_todo_list {
+            margin-bottom: 10px;
+        }
+
+        .main_todo_list li {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+
+        .main_todo_list button.deletebtn {
+            margin-left: 5px;
+            border: none;
+            background: none;
+            color: red;
+            cursor: pointer;
+        }
+
+        .main_todo_list button.deletebtn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>ToDo List</h1>
+    <form>
+        <div>
+            <input type="text" id="inputvalue" placeholder="Enter task...">
+            <button type="submit" id="btn">Submit</button>
+        </div>
+        <section id="todo-list"></section>
+    </form>
+
+    <script>
+        const maintodolen = document.getElementById('todo-list');
+        const inputvalue = document.getElementById('inputvalue');
+
+        const gettodolistitem = () => {
+            return JSON.parse(localStorage.getItem("todolist"));
+        }
+
+        let localtodoList = gettodolistitem() || [];
+
+        const addtodolist = (e) => {
+            e.preventDefault();
+            const todolistvalue = inputvalue.value.trim();
+
+            if (todolistvalue !== "") {
+                localtodoList.push(todolistvalue);
+                localtodoList = [...new Set(localtodoList)]; //do not add duplicate value
+                localStorage.setItem("todolist", JSON.stringify(localtodoList));
+                showtodolist();
+                inputvalue.value = ""; // Clear input after adding
+            }
+        }
+
+        const showtodolist = () => {
+            maintodolen.innerHTML = ""; // Clear existing list
+            localtodoList.forEach((current, index) => {
+                let divElement = document.createElement("div");
+                divElement.classList.add("main_todo_list");
+                divElement.innerHTML = `<li>${current}</li> <button class="deletebtn" data-index="${index}">Delete</button>`;
+                maintodolen.appendChild(divElement);
+            });
+        }
+
+        const removeTodolist = (index) => {
+            localtodoList.splice(index, 1);
+            localStorage.setItem("todolist", JSON.stringify(localtodoList));
+            showtodolist();
+        }
+
+        maintodolen.addEventListener('click', (e) => {
+            console.log(e.target)
+            if (e.target.classList.contains('deletebtn')) {
+                const index = e.target.getAttribute('data-index');
+                removeTodolist(index);
+            }
+        });
+
+        document.getElementById('btn').addEventListener('click', addtodolist);
+        showtodolist();
+    </script>
+</body>
+</html>

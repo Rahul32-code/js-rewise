@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(45deg, #000, #fff);
+        }
+
+        .main {
+            width: 30%;
+            /* background-color: red; */
+            height: 400px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .copycode {
+            width: 90%;
+            margin: 10px auto;
+            border: 2px solid silver;
+            padding: 13px;
+            font-size: large;
+        }
+
+        #mybutton {
+            width: 40%;
+            height: 40px;
+            padding: 10px;
+            background: #000;
+            color: #fff;
+            border: 1px solid white;
+            border-radius: 10px;
+            margin: 25px;
+            font-size: large;
+        }
+        #mybutton2 {
+            width: 40%;
+            height: 40px;
+            padding: 10px;
+            background: #000;
+            color: #fff ;
+            border: 1px solid white;
+            font-size: large;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section>
+        <div class="main">
+            <button id="mybutton">#48656</button>
+            <button id="mybutton2">change me</button>
+            <h2>copy code</h2>
+            <div class="copycode">
+                background-image: linear-gradient(45deg, #000, #fff);
+            </div>
+        </div>
+    </section>
+    <script>
+        let btn1 = document.querySelector('#mybutton');
+        let btn2 = document.getElementById('mybutton2');
+        let Copypath = document.querySelector('.copycode');
+        let hexaColor = '#000';
+        let hexaColor1 = '#fff';
+
+        let hexavalues = () => {
+            // console.log(myhexavalue[15]);
+            let myhexavalue = '1234567890abcdef';
+            let color = '#';
+            for (let i = 1; i <= 6; i++) {
+                let random = Math.floor(Math.random() * 16);
+                // console.log(myhexavalue[random]);
+                color = color + myhexavalue[random];
+            }
+            return color;
+            // console.log(color);
+        }
+
+        let handelbtn1 = () => {
+            hexaColor = hexavalues();
+            console.log(hexaColor);
+            document.body.style.backgroundImage = `linear-gradient(45deg, ${hexaColor}, ${hexaColor1})`
+            Copypath.innerHTML = `background-image: linear-gradient(45deg, ${hexaColor}, ${hexaColor1})`
+            btn1.innerHTML = `${hexaColor}`;
+            btn1.style.background = `${hexaColor}`
+
+        }
+        let handelbtn2 = () => {
+            hexaColor1 = hexavalues();
+            console.log(hexaColor1);
+            document.body.style.backgroundImage = `linear-gradient(45deg, ${hexaColor}, ${hexaColor1})`
+            Copypath.innerHTML = `background-image: linear-gradient(45deg, ${hexaColor}, ${hexaColor1})`
+            btn2.innerHTML = `${hexaColor1}`;
+            btn2.style.background = `${hexaColor1}`
+        }
+
+        btn1.addEventListener("click", handelbtn1)
+        btn2.addEventListener("click", handelbtn2)
+
+        Copypath.addEventListener('click', () => {
+            navigator.clipboard.writeText(Copypath.innerHTML)
+        })
+    </script>
+</body>
+
+</html>
