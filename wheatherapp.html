@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background: #1e1e1e;
+            color: #171717;
+        }
+
+        .container {
+            background-color: #fff;
+            color: #171717;
+            padding: 2rem;
+            width: 40%;
+            margin: 4rem auto;
+            border-radius: 10px;
+        }
+
+        .wheather_header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input {
+            border: none;
+            background: #1e1e1e;
+            color: #fff;
+            outline: none;
+            padding: 0.5rem 2.5rem;
+            border-radius: 5px;
+            box-shadow: rgb(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+        input::placeholder {
+            color: #fff;
+        }
+
+        .weather_search {
+            position: relative;
+        }
+
+        .weather_search i {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-size: 15px;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="container">
+        <!-- input field search -->
+        <div class="Wheather_header">
+            <form class="weather_search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="city_name" placeholder="search your city">
+            </form>
+        </div>
+        <!-- wheather main data -->
+        <div class="wheather_body">
+            <h1 class="wheather_city"></h1>
+            <p class="wheather_date_time"></p>
+            <div class="wheather_data">
+                <p class="wheather_forcast"></p>
+                <div class="wheather_icon"></div>
+            </div>
+            <p class="wheather_temp"></p>
+            <div class="wheather_min_max">
+                <p class="wheather_min"></p>
+                <p class="wheather_max"></p>
+            </div>
+        </div>
+        <!-- wheather extra data -->
+        <section class="wheather_info">
+            <div class="wheather_card">
+                <i class="fa-solid fa-droplet"></i>
+                <div>
+                    <p>feels Like</p>
+                    <p class="wheather_feelsLike">15&#176</p>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script>
+        const cityName = document.querySelector('.wheather_city');
+        const dateTime = document.querySelector('.wheather_date_time');
+        const w_Forecast = document.querySelector('.wheather_forcast');
+        const W_Icon = document.querySelector('.wheather_icon');
+        const w_Temp = document.querySelector('.wheather_temp');
+        const W_Min = document.querySelector('.wheather_min');
+        const W_Max = document.querySelector('.wheather_max');
+        const W_feelsLike = document.querySelector('.wheather_feelsLike');
+
+        // search value
+        let city = "";
+        citySearch.addEventListener("submit", (e)=>{
+            e.preventDefault();
+            let  city_name = document.querySelector("city_name");
+            console.log(city_name.value);
+            city = city_name.value;
+        })
+
+        // dateTime format Code
+        const getDateTime = () => {
+            // let dt = 1708667988;
+            const curDate = new Date(dt * 1000);
+            console.log(curDate)
+
+            const option = {
+                weekday: "long",
+                Year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric"
+            }
+            const formatter = new IntlDateTimeFormat("en-us", options);
+            const formatdate = formatter.format(curDate);
+            return formatdate
+        }
+
+        const getWheatherData = async () => {
+            let w_api = `https://api.openweathermap.org/data/2.5/wheather?q=pune&APPID=a0b06669a793506ae54060f7df8a5fb6;`
+            try {
+                let res = await fetch(w_api);
+                let data = await res.json();
+
+                const { main, name, weather, wind, sys, dt } = data;
+
+                cityName.innerHTML = `${name}, ${sys.country}`;
+                dateTime.innerHTML = getDateTime(dt)
+
+                w_Temp.innerHTML = `${main.temp}&#176`;
+                w_Min.innerHTML = `Min: ${main.temp_min.toFixed()}&#176`;
+                w_Max.innerHTML = `Max: ${main.temp_max.toFixed()}&#176`;
+                W_feelsLike.innerHTML = `${main.feels_like.toFixed()}&#176`;
+                
+
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+
+        document.body.addEventListener('load', getWheatherData)
+
+    </script>
+</body>
+
+</html>
